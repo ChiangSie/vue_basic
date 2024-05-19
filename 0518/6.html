@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        .aaa{
+            display: flex;
+            align-items: center;
+        }
+        .aaa h6,span{
+            vertical-align: middle;
+        }
+        img{
+            width: 5%;
+            aspect-ratio: 1/1;
+            margin:1.5%  2.5%;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" >
+        
+        
+        <div class="aaa" v-for = "items in products" :key = "items.id">
+            <h6>{{items['title']}}</h6>
+            <img :src=" items.image">
+            <p>
+                <!-- {{items?.rating}} -->
+                {{items?.rating?.rate}}
+                {{items?.rating?.count}}
+                {{parseInt(items?.rating?.rate)}}
+                <span v-for = " star in parseInt(items?.rating?.rate)">*</span>
+                
+            </p>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue "></script>
+    <script>
+        Vue.createApp({
+            data(){
+                return{
+                    products:[]
+                }
+            },
+            mounted(){
+                fetch('https://fakestoreapi.com/products')
+                .then(res=>{
+                    return res.json()
+                })
+
+                .then(json=>{
+                    console.log(json)
+                    this.products = json
+                })
+            },
+        }).mount("#app")
+    </script>
+</body>
+</html>
